@@ -45,7 +45,7 @@ class StatisticServiceImplTest {
         customer.setMobileNumber("42");
         customer.setPassword("iloveyou");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("janedoe");
+        customer.setEmail("janedoe");
         when(this.authenticationService.getLoginCustomer()).thenReturn(customer);
         ResponseDto<List<StatisticDto>> actualMonthlyStatistic = this.statisticServiceImpl.getMonthlyStatistic();
         assertEquals(2000, actualMonthlyStatistic.getCode().intValue());
@@ -76,7 +76,7 @@ class StatisticServiceImplTest {
         customer.setMobileNumber("42");
         customer.setPassword("iloveyou");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("janedoe");
+        customer.setEmail("janedoe");
         when(this.authenticationService.getLoginCustomer()).thenReturn(customer);
         ResponseDto<List<StatisticDto>> actualMonthlyStatistic = this.statisticServiceImpl.getMonthlyStatistic();
         assertEquals(2000, actualMonthlyStatistic.getCode().intValue());
@@ -157,7 +157,7 @@ class StatisticServiceImplTest {
         customer.setMobileNumber("42");
         customer.setPassword("iloveyou");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("janedoe");
+        customer.setEmail("janedoe");
         when(this.authenticationService.getLoginCustomer()).thenReturn(customer);
         ResponseDto<List<StatisticDto>> actualMonthlyStatistic = this.statisticServiceImpl.getMonthlyStatistic();
         assertEquals(2000, actualMonthlyStatistic.getCode().intValue());
@@ -188,7 +188,7 @@ class StatisticServiceImplTest {
         customer.setMobileNumber("42");
         customer.setPassword("iloveyou");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("janedoe");
+        customer.setEmail("janedoe");
         when(this.authenticationService.getLoginCustomer()).thenReturn(customer);
         ResponseDto<List<StatisticDto>> actualMonthlyStatistic = this.statisticServiceImpl.getMonthlyStatistic();
         assertEquals(2000, actualMonthlyStatistic.getCode().intValue());
@@ -269,7 +269,7 @@ class StatisticServiceImplTest {
         customer.setMobileNumber("42");
         customer.setPassword("iloveyou");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("janedoe");
+        customer.setEmail("janedoe");
         when(this.authenticationService.getLoginCustomer()).thenReturn(customer);
         ResponseDto<List<StatisticDto>> actualMonthlyStatistic = this.statisticServiceImpl.getMonthlyStatistic();
         assertEquals(2000, actualMonthlyStatistic.getCode().intValue());
@@ -300,7 +300,7 @@ class StatisticServiceImplTest {
         customer.setMobileNumber("42");
         customer.setPassword("iloveyou");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("janedoe");
+        customer.setEmail("janedoe");
         when(this.authenticationService.getLoginCustomer()).thenReturn(customer);
         ResponseDto<List<StatisticDto>> actualMonthlyStatistic = this.statisticServiceImpl.getMonthlyStatistic();
         assertEquals(2000, actualMonthlyStatistic.getCode().intValue());

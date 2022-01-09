@@ -43,22 +43,22 @@ class CustomerValidatorTest {
         customer.setMobileNumber("42");
         customer.setPassword("Admin");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("Sagar");
+        customer.setEmail("Sagar");
         CustomerValidator customerValidator = new CustomerValidator();
         Mockito.when(BeanUtil.getBean(Mockito.any())).thenReturn(customerRepository);
-        Mockito.when(customerRepository.findByUsername(Mockito.any())).thenReturn(Optional.of(customer));
+        Mockito.when(customerRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(customer));
         CustomerRegisterDto customerRegisterDto = new CustomerRegisterDto();
-        customerRegisterDto.setAddress("42 Main St");
+
         customerRegisterDto.setFirstName("Jane");
         customerRegisterDto.setLastName("Doe");
         customerRegisterDto.setMobileNumber("42");
         customerRegisterDto.setPassword("India");
-        customerRegisterDto.setUsername("Sagar");
+        customerRegisterDto.setEmail("Sagar");
 
         customerValidator.validate(customerRegisterDto,
                 new BindException(customerRegisterDto, "com.getir.bookstore.dto.request.CustomerRegisterDto"));
-        assertEquals("42 Main St", customerRegisterDto.getAddress());
-        assertEquals("Sagar", customerRegisterDto.getUsername());
+
+        assertEquals("Sagar", customerRegisterDto.getEmail());
         assertEquals("India", customerRegisterDto.getPassword());
         assertEquals("42", customerRegisterDto.getMobileNumber());
         assertEquals("Doe", customerRegisterDto.getLastName());
@@ -74,22 +74,22 @@ class CustomerValidatorTest {
         customer.setMobileNumber("42");
         customer.setPassword("Admin");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("");
+        customer.setEmail("");
         CustomerValidator customerValidator = new CustomerValidator();
         Mockito.when(BeanUtil.getBean(Mockito.any())).thenReturn(customerRepository);
-        Mockito.when(customerRepository.findByUsername(Mockito.any())).thenReturn(Optional.of(customer));
+        Mockito.when(customerRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(customer));
         CustomerRegisterDto customerRegisterDto = new CustomerRegisterDto();
-        customerRegisterDto.setAddress("42 Main St");
+
         customerRegisterDto.setFirstName("Jane");
         customerRegisterDto.setLastName("Doe");
         customerRegisterDto.setMobileNumber("42");
         customerRegisterDto.setPassword("India");
-        customerRegisterDto.setUsername("");
+        customerRegisterDto.setEmail("");
 
         customerValidator.validate(customerRegisterDto,
                 new BindException(customerRegisterDto, "com.getir.bookstore.dto.request.CustomerRegisterDto"));
-        assertEquals("42 Main St", customerRegisterDto.getAddress());
-        assertEquals("", customerRegisterDto.getUsername());
+
+        assertEquals("", customerRegisterDto.getEmail());
         assertEquals("India", customerRegisterDto.getPassword());
         assertEquals("42", customerRegisterDto.getMobileNumber());
         assertEquals("Doe", customerRegisterDto.getLastName());
@@ -100,19 +100,19 @@ class CustomerValidatorTest {
     void testValidateWithEmptyCustomerRecord() {
         CustomerValidator customerValidator = new CustomerValidator();
         Mockito.when(BeanUtil.getBean(Mockito.any())).thenReturn(customerRepository);
-        Mockito.when(customerRepository.findByUsername(Mockito.any())).thenReturn(Optional.empty());
+        Mockito.when(customerRepository.findByEmail(Mockito.any())).thenReturn(Optional.empty());
         CustomerRegisterDto customerRegisterDto = new CustomerRegisterDto();
-        customerRegisterDto.setAddress("42 Main St");
+
         customerRegisterDto.setFirstName("Jane");
         customerRegisterDto.setLastName("Doe");
         customerRegisterDto.setMobileNumber("42");
         customerRegisterDto.setPassword("India");
-        customerRegisterDto.setUsername("");
+        customerRegisterDto.setEmail("");
 
         customerValidator.validate(customerRegisterDto,
                 new BindException(customerRegisterDto, "com.getir.bookstore.dto.request.CustomerRegisterDto"));
-        assertEquals("42 Main St", customerRegisterDto.getAddress());
-        assertEquals("", customerRegisterDto.getUsername());
+
+        assertEquals("", customerRegisterDto.getEmail());
         assertEquals("India", customerRegisterDto.getPassword());
         assertEquals("42", customerRegisterDto.getMobileNumber());
         assertEquals("Doe", customerRegisterDto.getLastName());

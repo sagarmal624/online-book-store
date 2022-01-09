@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class AuthenticationResponseDto {
-    private String userName;
+    private String email;
     private String token;
     @Builder.Default
     private String type = "Bearer";

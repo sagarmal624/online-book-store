@@ -52,16 +52,15 @@ class CustomerServiceImplTest {
         customer.setMobileNumber("42");
         customer.setPassword("test1234");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("janedoe");
+        customer.setEmail("janedoe");
         when(this.customerRepository.save((Customer) any())).thenReturn(customer);
 
         CustomerRegisterDto customerRegisterDto = new CustomerRegisterDto();
-        customerRegisterDto.setAddress("42 Main St");
         customerRegisterDto.setFirstName("Jane");
         customerRegisterDto.setLastName("Doe");
         customerRegisterDto.setMobileNumber("42");
         customerRegisterDto.setPassword("india");
-        customerRegisterDto.setUsername("janedoe");
+        customerRegisterDto.setEmail("janedoe");
         ResponseDto<Boolean> actualRegisterCustomerResult = this.customerServiceImpl.registerCustomer(customerRegisterDto);
         assertEquals(2000, actualRegisterCustomerResult.getCode().intValue());
         assertTrue(actualRegisterCustomerResult.getSuccess());
@@ -79,12 +78,12 @@ class CustomerServiceImplTest {
                 .thenThrow(new RecordNotFoundException("An error occurred", "Field Name"));
 
         CustomerRegisterDto customerRegisterDto = new CustomerRegisterDto();
-        customerRegisterDto.setAddress("42 Main St");
+
         customerRegisterDto.setFirstName("Jane");
         customerRegisterDto.setLastName("Doe");
         customerRegisterDto.setMobileNumber("42");
         customerRegisterDto.setPassword("india");
-        customerRegisterDto.setUsername("janedoe");
+        customerRegisterDto.setEmail("janedoe");
         assertThrows(RecordNotFoundException.class, () -> this.customerServiceImpl.registerCustomer(customerRegisterDto));
         verify(this.passwordEncoder).encode((CharSequence) any());
         verify(this.customerRepository).save((Customer) any());
@@ -99,16 +98,16 @@ class CustomerServiceImplTest {
         customer.setMobileNumber("42");
         customer.setPassword("test1234");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("janedoe");
+        customer.setEmail("janedoe");
         when(this.customerRepository.save((Customer) any())).thenReturn(customer);
 
         CustomerRegisterDto customerRegisterDto = new CustomerRegisterDto();
-        customerRegisterDto.setAddress("42 Main St");
+
         customerRegisterDto.setFirstName("Jane");
         customerRegisterDto.setLastName("Doe");
         customerRegisterDto.setMobileNumber("42");
         customerRegisterDto.setPassword("india");
-        customerRegisterDto.setUsername("janedoe");
+        customerRegisterDto.setEmail("janedoe");
         ResponseDto<Boolean> actualRegisterCustomerResult = this.customerServiceImpl.registerCustomer(customerRegisterDto);
         assertEquals(1000, actualRegisterCustomerResult.getCode().intValue());
         assertFalse(actualRegisterCustomerResult.getSuccess());
@@ -133,7 +132,7 @@ class CustomerServiceImplTest {
         customer.setMobileNumber("42");
         customer.setPassword("india");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("janedoe");
+        customer.setEmail("janedoe");
         Page<Customer> page = Mockito.mock(Page.class);
         List<Customer> customerList=new ArrayList<>();
         customerList.add(customer);
@@ -150,7 +149,7 @@ class CustomerServiceImplTest {
         assertNotNull(responseDtoResponseDto.getData());
         assertNotNull(responseDtoResponseDto.getData().getRecords());
         assertEquals(1,responseDtoResponseDto.getData().getRecords().size());
-        assertEquals(customer.getUsername(),responseDtoResponseDto.getData().getRecords().get(0).getUsername());
+        assertEquals(customer.getEmail(),responseDtoResponseDto.getData().getRecords().get(0).getEmail());
     }
     @Test
     void testLoadUserByUsername() throws UsernameNotFoundException {
@@ -161,26 +160,26 @@ class CustomerServiceImplTest {
         customer.setMobileNumber("42");
         customer.setPassword("india");
         customer.setRoles(new HashSet<>());
-        customer.setUsername("janedoe");
+        customer.setEmail("janedoe");
         Optional<Customer> ofResult = Optional.of(customer);
-        when(this.customerRepository.findByUsername((String) any())).thenReturn(ofResult);
+        when(this.customerRepository.findByEmail((String) any())).thenReturn(ofResult);
         assertSame(customer, this.customerServiceImpl.loadUserByUsername("janedoe"));
-        verify(this.customerRepository).findByUsername((String) any());
+        verify(this.customerRepository).findByEmail((String) any());
     }
 
     @Test
     void testLoadUserByUsername2() throws UsernameNotFoundException {
-        when(this.customerRepository.findByUsername((String) any()))
+        when(this.customerRepository.findByEmail((String) any()))
                 .thenThrow(new RecordNotFoundException("An error occurred", "Field Name"));
         assertThrows(RecordNotFoundException.class, () -> this.customerServiceImpl.loadUserByUsername("janedoe"));
-        verify(this.customerRepository).findByUsername((String) any());
+        verify(this.customerRepository).findByEmail((String) any());
     }
 
     @Test
     void testLoadUserByUsername3() throws UsernameNotFoundException {
-        when(this.customerRepository.findByUsername((String) any())).thenReturn(Optional.empty());
+        when(this.customerRepository.findByEmail((String) any())).thenReturn(Optional.empty());
         assertThrows(RecordNotFoundException.class, () -> this.customerServiceImpl.loadUserByUsername("janedoe"));
-        verify(this.customerRepository).findByUsername((String) any());
+        verify(this.customerRepository).findByEmail((String) any());
     }
 }
 

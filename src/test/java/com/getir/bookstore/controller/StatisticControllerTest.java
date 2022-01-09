@@ -35,7 +35,7 @@ public class StatisticControllerTest {
     void testGetMonthlyStatisticByCustomerId() throws Exception {
         ResponseDto<List<StatisticDto>> responseDto = ResponseDto.buildSuccess();
         when(statisticService.getMonthlyStatistic(any())).thenReturn(responseDto);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STATISTICS_BASE_URL + "/customer/1/monthly")
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STATISTICS_BASE_URL + "/customer/1/report/monthly")
                 .contentType(MediaType.APPLICATION_JSON);
         MockMvcBuilders.standaloneSetup(this.statisticController)
                 .build()
@@ -43,11 +43,12 @@ public class StatisticControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"));
     }
+
     @Test
     void testGetMonthlyStatisticWithoutCustomerId() throws Exception {
         ResponseDto<List<StatisticDto>> responseDto = ResponseDto.buildSuccess();
         when(statisticService.getMonthlyStatistic()).thenReturn(responseDto);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STATISTICS_BASE_URL + "/customer/monthly")
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STATISTICS_BASE_URL + "/customer/report/monthly")
                 .contentType(MediaType.APPLICATION_JSON);
         MockMvcBuilders.standaloneSetup(this.statisticController)
                 .build()
@@ -55,7 +56,5 @@ public class StatisticControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"));
     }
-
-
 
 }

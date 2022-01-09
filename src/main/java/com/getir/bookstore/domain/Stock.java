@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Stock extends BaseEntity {
+
     private Integer quantity;
     @OneToOne
     private Book book;

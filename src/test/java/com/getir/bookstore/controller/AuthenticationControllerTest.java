@@ -33,9 +33,9 @@ public class AuthenticationControllerTest{
     @Test
     void testSigninSuccess() throws Exception {
         AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto();
-        authenticationRequestDto.setUsername("test@gmail.com");
+        authenticationRequestDto.setEmail("test@gmail.com");
         authenticationRequestDto.setPassword("test@123");
-        AuthenticationResponseDto authenticationResponseDto = AuthenticationResponseDto.builder().expired(36000).userName("test@gmail.com").token("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c").build();
+        AuthenticationResponseDto authenticationResponseDto = AuthenticationResponseDto.builder().expired(36000).email("test@gmail.com").token("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c").build();
         when(authenticationService.getToken(any())).thenReturn(authenticationResponseDto);
         String content = (new ObjectMapper()).writeValueAsString(authenticationRequestDto);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(ApiEndPoint.OAUTH_BASE_URL + "/token")
@@ -51,7 +51,7 @@ public class AuthenticationControllerTest{
     @Test
     void testSigninFailure() throws Exception {
         AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto();
-        authenticationRequestDto.setUsername(null);
+        authenticationRequestDto.setEmail(null);
         authenticationRequestDto.setPassword(null);
         String content = (new ObjectMapper()).writeValueAsString(authenticationRequestDto);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(ApiEndPoint.OAUTH_BASE_URL + "/token")

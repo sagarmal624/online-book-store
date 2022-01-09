@@ -18,14 +18,16 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @CreatedDate
-    LocalDateTime createdDate;
+    private LocalDateTime createdDate;
 
     @LastModifiedDate
-    LocalDateTime lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
     @CreatedBy
-    String createdBy;
+    private String createdBy;
 
     @LastModifiedBy
-    String lastModifiedBy;
+    private String lastModifiedBy;
+    @Version
+    private Integer version;
 }

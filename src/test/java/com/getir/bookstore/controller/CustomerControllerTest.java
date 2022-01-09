@@ -44,7 +44,7 @@ public class CustomerControllerTest {
     @Test
     void testRegisterCustomerSuccess() throws Exception {
         CustomerRegisterDto customerRegisterDto = new CustomerRegisterDto();
-        customerRegisterDto.setUsername("test@gmail.com");
+        customerRegisterDto.setEmail("test@gmail.com");
         customerRegisterDto.setPassword("test@123");
         customerRegisterDto.setFirstName("sagar");
         customerRegisterDto.setLastName("shankhala");
@@ -65,7 +65,7 @@ public class CustomerControllerTest {
     @Test
     void testRegisterCustomerFailure() throws Exception {
         CustomerRegisterDto customerRegisterDto = new CustomerRegisterDto();
-        customerRegisterDto.setUsername(null);
+        customerRegisterDto.setEmail(null);
         customerRegisterDto.setPassword("test@123");
         customerRegisterDto.setFirstName("sagar");
         customerRegisterDto.setLastName("shankhala");
@@ -89,7 +89,7 @@ public class CustomerControllerTest {
         CustomerDto customerDto = new CustomerDto();
         customerDto.setFirstName("sagar");
         customerDto.setLastName("shankhala");
-        customerDto.setUsername("sagarmal24@gmal.com");
+        customerDto.setEmail("sagarmal24@gmal.com");
         PageDto pageDto = PageDto.builder().page(0).size(10).build();
         List<CustomerDto> customerDtoList = new ArrayList<>();
         customerDtoList.add(customerDto);

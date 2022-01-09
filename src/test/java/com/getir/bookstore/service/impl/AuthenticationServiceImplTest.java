@@ -48,7 +48,7 @@ class AuthenticationServiceImplTest {
     @Test
     void testGetTokenSuccessCase() {
         AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto();
-        authenticationRequestDto.setUsername("test");
+        authenticationRequestDto.setEmail("test");
         authenticationRequestDto.setPassword("India@123");
         when(jwtTokenProvider.generateJwtToken(any())).thenReturn("Bearer token");
         when(authentication.isAuthenticated()).thenReturn(true);
@@ -66,7 +66,7 @@ class AuthenticationServiceImplTest {
                 CustomerAuthenticationException.class,
                 () -> {
                     AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto();
-                    authenticationRequestDto.setUsername("test");
+                    authenticationRequestDto.setEmail("test");
                     authenticationRequestDto.setPassword("India@123");
                     when(authentication.isAuthenticated()).thenReturn(false);
                     when(authenticationManager.authenticate(any())).thenReturn(authentication);
@@ -79,14 +79,14 @@ class AuthenticationServiceImplTest {
     @Test
     void testLoginUser() {
         Customer loginedUser = new Customer();
-        loginedUser.setUsername("sagar");
+        loginedUser.setEmail("sagar");
         when(authentication.getPrincipal()).thenReturn(loginedUser);
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(SecurityContextHolder.getContext()).thenReturn(securityContext);
         Customer customer = authenticationService.getLoginCustomer();
         assertNotNull(customer);
-        assertNotNull(customer.getUsername());
-        assertEquals(customer.getUsername(), loginedUser.getUsername());
+        assertNotNull(customer.getEmail());
+        assertEquals(customer.getEmail(), loginedUser.getEmail());
     }
 }
 

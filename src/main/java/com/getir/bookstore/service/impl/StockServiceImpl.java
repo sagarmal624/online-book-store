@@ -44,8 +44,10 @@ public class StockServiceImpl implements StockService {
         if (Objects.isNull(stock)) {
             stock = new Stock();
             stock.setBook(book);
+            stock.setQuantity(stockRequestDto.getQuantity());
+        }else{
+            stock.setQuantity(stock.getQuantity()+stockRequestDto.getQuantity());
         }
-        stock.setQuantity(stockRequestDto.getQuantity());
         stock = stockRepository.save(stock);
         return Objects.nonNull(stock.getId()) ? ResponseDto.buildSuccess() : ResponseDto.buildError();
     }

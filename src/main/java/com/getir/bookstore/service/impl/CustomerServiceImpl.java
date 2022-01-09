@@ -77,6 +77,6 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
 
     @Override
     public Customer loadUserByUsername(String username) throws UsernameNotFoundException {
-        return customerRepository.findByUsername(username).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.CUSTOMER_NOT_FOUND.getMessage(), "userName"));
+        return customerRepository.findByEmail(username).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.CUSTOMER_NOT_FOUND.getMessage(), "userName"));
     }
 }

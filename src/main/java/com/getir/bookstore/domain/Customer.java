@@ -25,21 +25,25 @@ public class Customer implements UserDetails {
     private String firstName;
     private String lastName;
     @Column(unique = true)
-    private String username;
+    private String email;
     private String password;
     private String mobileNumber;
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private Set<String> roles = new HashSet<>();
 
-    @Override
-    public String getUsername() {
-        return this.username;
+    public String getEmail() {
+        return this.email;
     }
 
     @Override
     public String getPassword() {
         return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override

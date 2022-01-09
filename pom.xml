@@ -29,8 +29,8 @@
         <sonar.java.codeCoveragePlugin>jacoco</sonar.java.codeCoveragePlugin>
         <sonar.coverage.jacoco.xmlReportPaths>${project.test.result.directory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.test.exclusions>**/test/**/*.*</sonar.test.exclusions>
-        <sonar.exclusions>**/domain/**/*.java,**/constant/**/*.java,**/config/**/*.java,**/domain/**/*.java,**/exception/**/*.java,**/util/**/*.java</sonar.exclusions>
-        <sonar.coverage.exclusions>>**/domain/**/*.java,**/constant/**/*,**/config/**/*.java,**/domain/**/*.java,**/exception/**/*.java,**/util/**/*.java</sonar.coverage.exclusions>
+        <sonar.exclusions>**/com/getir/bookstore/domain/**/*.java,**/com/getir/bookstore/exception/**/*.java,**/com/getir/bookstore/aop/**/*.java,,**/com/getir/bookstore/constant/**/*.java,**/com/getir/bookstore/config/**/*.java,**/com/getir/bookstore/dto/**/*.java,**/com/getir/bookstore/util/**/*.java,**/com/getir/bookstore/BookStoreApplication.java,**/com/getir/bookstore/domain/**/*.java,**/com/getir/bookstore/validator/CustomerValidator.java</sonar.exclusions>
+        <sonar.coverage.exclusions>**/com/getir/bookstore/domain/**/*.java,**/com/getir/bookstore/exception/**/*.java,**/com/getir/bookstore/aop/**/*.java,,**/com/getir/bookstore/constant/**/*.java,**/com/getir/bookstore/config/**/*.java,**/com/getir/bookstore/dto/**/*.java,**/com/getir/bookstore/util/**/*.java,**/com/getir/bookstore/BookStoreApplication.java,**/com/getir/bookstore/validator/CustomerValidator.java</sonar.coverage.exclusions>
     </properties>
     <dependencies>
 

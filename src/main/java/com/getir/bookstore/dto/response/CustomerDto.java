@@ -6,7 +6,7 @@ import lombok.Data;
 public class CustomerDto extends BaseDto {
     private String firstName;
     private String lastName;
-    private String username;
+    private String email;
     private String mobileNumber;
     private String address;
 }

@@ -21,12 +21,12 @@ public class StatisticController{
     @Autowired
     private StatisticService statisticService;
 
-    @GetMapping("/customer/{customerId}/monthly")
+    @GetMapping("/customer/{customerId}/report/monthly")
     public ResponseEntity<ResponseDto<List<StatisticDto>>> getMonthlyStatistic(@PathVariable("customerId") Long customerId) {
         return ResponseEntity.ok(statisticService.getMonthlyStatistic(customerId));
     }
 
-    @GetMapping("/customer/monthly")
+    @GetMapping("/customer/report/monthly")
     public ResponseEntity<ResponseDto<List<StatisticDto>>> getMonthlyStatistic() {
         return ResponseEntity.ok(statisticService.getMonthlyStatistic());
     }

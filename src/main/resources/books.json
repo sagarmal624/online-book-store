@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Head First Java",
+    "author": "Kathy Sierra, Bert Bates",
+    "description": " The book is the same as its name suggests. If you are new in programming you can opt for the book. It explains the concepts in layman terms and real-world examples. It is a popular book among Java programmers but also has a drawback i.e. it has not been updated after Java 5.0. It also covers the basic programming concepts as well as an advanced topic such as socket programming, distributed programming with RMI, etc.",
+    "price": 1000
+  },
+  {
+    "title": "Java The Complete Reference",
+    "author": "Herbert Schildt",
+    "description": "It is the most recommended books suggested by many Java programmers, and also suggested by the universities for their students. It is the perfect book for beginners for learning Java. It comprehensively covers basic Java concepts such as programming principles, keywords, Java language syntaxes, Java 8 API, JavaBeans, servlets, applets, swing, etc. It is easily available in the market and you can download its PDF version. The book contains 1000+ pages. Its easy language makes it popular. In this book, each and every concept explained in detail with real-world examples, and at the end of each chapter, there is a collection of multiple-choice questions that are asked in competitive exams.",
+    "price": 1100
+  },
+  {
+    "title": "Thinking in Java",
+    "author": "Bruce Eckel",
+    "description": "Thinking in Java is the only book I know that explains the WHY of Java; why it was designed the way it was, why it works the way it does, why it sometimes doesn't work, why it's better than C++, why it's not. Although it also does a good job of teaching the what and how of the language, Thinking in Java is definitely the thinking person's choice in a Java book..",
+    "price": 1200
+  },
+  {
+    "title": "OCA Java SE 8",
+    "author": "Kathy Sierra",
+    "description": "This book is intended specifically for individuals who wish to earn the OCA Java SE 8 Programmer I Certification (exam number 1Z0-808). The books will deepen your knowledge. Before reading this book, you must assure that you are familiar with Java and have working experience with it. If you're completely new to the Java programming language, I suggest that you start your journey with an entry-level book and then come back to this one.",
+    "price": 1500
+  }
+]

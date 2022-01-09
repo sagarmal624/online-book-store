@@ -24,11 +24,11 @@ public class CustomerValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         CustomerRegisterDto customer = (CustomerRegisterDto) target;
-        if (StringUtils.isNotEmpty(customer.getUsername())) {
+        if (StringUtils.isNotEmpty(customer.getEmail())) {
             CustomerRepository customerRepository = BeanUtil.getBean(CustomerRepository.class);
-            Optional<Customer> optionalCustomer = customerRepository.findByUsername(customer.getUsername());
+            Optional<Customer> optionalCustomer = customerRepository.findByEmail(customer.getEmail());
             if (optionalCustomer.isPresent()) {
-                errors.rejectValue("username", "Unique.customerRegisterDto.username");
+                errors.rejectValue("email", "Unique.customerRegisterDto.email");
             }
         }
     }

@@ -79,7 +79,7 @@ public class StockControllerTest {
         stockDtoList.add(stockDto);
         ResponseDto<PageResponseDto<StockDto>> responseDtoResponseDto = ResponseDto.buildSuccess(PageResponseDto.<StockDto>builder().page(pageDto).records(stockDtoList).build());
         when(stockService.getStocks(any())).thenReturn(responseDtoResponseDto);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STOCK_BASE_URL + "?page=0&size=10")
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STOCK_BASE_URL + "/books?page=0&size=10")
                 .contentType(MediaType.APPLICATION_JSON);
         MockMvcBuilders.standaloneSetup(this.StockController)
                 .build()
@@ -89,7 +89,7 @@ public class StockControllerTest {
 
     @Test
     void testGetStocksFailure() throws Exception {
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STOCK_BASE_URL)
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STOCK_BASE_URL+"/books")
                 .contentType(MediaType.APPLICATION_JSON);
         MockMvcBuilders.standaloneSetup(this.StockController)
                 .build()

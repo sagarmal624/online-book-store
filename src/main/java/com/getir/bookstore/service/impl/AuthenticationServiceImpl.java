@@ -16,14 +16,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-
 public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    JwtTokenProvider jwtTokenProvider;
-
+    private JwtTokenProvider jwtTokenProvider;
 
     static final int TOKEN_EXPIRATION = 3600000;
 
@@ -32,14 +30,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Authentication authentication = authenticate(authenticationRequestDto);
         if (authentication.isAuthenticated()) {
             String token = jwtTokenProvider.generateJwtToken(authentication);
-            return AuthenticationResponseDto.builder().token(token).userName(authentication.getName()).expired(TOKEN_EXPIRATION).build();
+            return AuthenticationResponseDto.builder().token(token).email(authentication.getName()).expired(TOKEN_EXPIRATION).build();
         }
         throw new CustomerAuthenticationException("Invalid Username or Password");
     }
 
     @Override
     public Authentication authenticate(AuthenticationRequestDto authenticationRequestDto) {
-        return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequestDto.getUsername(), authenticationRequestDto.getPassword()));
+        return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequestDto.getEmail(), authenticationRequestDto.getPassword()));
 
     }
 

@@ -32,7 +32,7 @@ public class StockController extends BaseController {
         return ResponseEntity.ok(stockService.updateBookOfStock(stockRequestDto));
     }
 
-    @GetMapping
+    @GetMapping("/books")
     public ResponseEntity<ResponseDto> getStocks(@Valid PageRequestDto pageRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(getErrors(bindingResult));

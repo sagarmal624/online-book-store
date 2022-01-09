@@ -7,6 +7,7 @@ import com.getir.bookstore.dto.response.BookDto;
 import com.getir.bookstore.dto.response.PageResponseDto;
 import com.getir.bookstore.dto.response.ResponseDto;
 import com.getir.bookstore.repository.BookRepository;
+import com.getir.bookstore.repository.StockRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -31,7 +32,8 @@ import static org.mockito.Mockito.*;
 class BookServiceImplTest {
     @MockBean
     private BookRepository bookRepository;
-
+    @MockBean
+    private StockRepository stockRepository;
     @Autowired
     private BookServiceImpl bookServiceImpl;
 
@@ -63,8 +65,8 @@ class BookServiceImplTest {
         assertNotNull(responseDtoResponseDto);
         assertNotNull(responseDtoResponseDto.getData());
         assertFalse(responseDtoResponseDto.getData().getRecords().isEmpty());
-        assertEquals(responseDtoResponseDto.getData().getRecords().size(),1);
-        assertEquals(responseDtoResponseDto.getData().getRecords().get(0).getTitle(),book.getTitle());
+        assertEquals(responseDtoResponseDto.getData().getRecords().size(), 1);
+        assertEquals(responseDtoResponseDto.getData().getRecords().get(0).getTitle(), book.getTitle());
 
     }
 
@@ -94,6 +96,7 @@ class BookServiceImplTest {
         assertNull(actualAddBookResult.getData());
         verify(this.bookRepository).save((Book) any());
     }
+
     @Test
     void testAddBookFailureCase() {
         Book book = new Book();

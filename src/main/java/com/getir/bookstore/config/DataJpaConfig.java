@@ -21,6 +21,6 @@ public class DataJpaConfig {
                 .map(SecurityContext::getAuthentication)
                 .filter(Authentication::isAuthenticated)
                 .map(Authentication::getPrincipal)
-                .map(Customer.class::cast).map(Customer::getUsername);
+                .map(Customer.class::cast).map(Customer::getEmail);
     }
 }

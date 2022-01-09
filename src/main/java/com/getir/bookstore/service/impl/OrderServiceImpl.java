@@ -17,18 +17,20 @@ import com.getir.bookstore.service.AuthenticationService;
 import com.getir.bookstore.service.OrderService;
 import com.getir.bookstore.util.BookStoreUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -47,16 +49,31 @@ public class OrderServiceImpl implements OrderService {
     AuthenticationService authenticationService;
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class, propagation = Propagation.REQUIRED)
     public ResponseDto<OrderDto> createOrder(List<ItemOrderRequestDto> request) {
         if (CollectionUtils.isEmpty(request)) {
             return ResponseDto.buildError();
         } else {
-            Order order = orderRepository.save(buildOrder(request));
-            if (Objects.nonNull(order.getId())) {
-                List<ItemOrder> itemOrders = order.getItemOrders();
-                itemOrders.stream().map(this::updateStockInDb).forEach(stockRepository::save);
+            if (isStockExistForAllBooks(request)) {
+                boolean isStockUpdated = false;
+                List<ItemOrder> itemOrders = convertDtoToEntity(request);
+
+                List<Stock> stocks = createStockEntities(itemOrders);
+                try {
+                    stockRepository.saveAllAndFlush(stocks);
+                    isStockUpdated = true;
+                    Order order = buildOrder(itemOrders);
+                    orderRepository.save(order);
+                } catch (Exception exception) {
+                    if (isStockUpdated) {
+                        revertStock(itemOrders, stocks);
+                    }
+                    return ResponseDto.buildError();
+                }
+                return ResponseDto.buildSuccess();
             }
-            return Objects.nonNull(order.getId()) ? ResponseDto.buildSuccess() : ResponseDto.buildError();
+
+            throw new RecordNotFoundException(MDC.get("msg"), "quantity");
         }
     }
 
@@ -135,21 +152,35 @@ public class OrderServiceImpl implements OrderService {
         return bookDto;
     }
 
-    private Order buildOrder(List<ItemOrderRequestDto> request) {
-        List<ItemOrder> itemOrders = convertDtoToEntity(request);
+    private Order buildOrder(List<ItemOrder> itemOrders) {
         Order order = new Order();
-        order.setItemOrders(itemOrders);
         order.setStatus(OrderStatus.IN_PROGRESS);
-        order.setAmount(getTotalAmount(itemOrders));
         order.setCustomer(getLoginCustomer());
+        order.setAmount(getTotalAmount(itemOrders));
+        order.setItemOrders(itemOrders);
         return order;
     }
 
-    private Stock updateStockInDb(ItemOrder itemOrder) {
-        Stock stock = getStock(itemOrder.getBook());
-        Integer dbQuantity = stock.getQuantity();
-        stock.setQuantity(dbQuantity - itemOrder.getQuantity());
-        return stock;
+    private List<Stock> createStockEntities(List<ItemOrder> itemOrders) {
+        return itemOrders.stream().map(itemOrder -> {
+            Stock stock = getStock(itemOrder.getBook());
+            Integer dbQuantity = stock.getQuantity();
+            stock.setQuantity(dbQuantity - itemOrder.getQuantity());
+            return stock;
+        }).collect(Collectors.toList());
+    }
+
+    private void revertStock(List<ItemOrder> itemOrders, List<Stock> stocks) {
+        stocks.stream().forEach(stock -> {
+            stock = stockRepository.findById(stock.getId()).get();
+            Integer qnty = stock.getQuantity();
+            stock.setQuantity(qnty + getQuantity(itemOrders, stock.getBook()));
+            stockRepository.save(stock);
+        });
+    }
+
+    private Integer getQuantity(List<ItemOrder> itemOrders, Book book) {
+        return itemOrders.stream().filter(itemOrder -> itemOrder.getBook().getId().equals(book.getId())).mapToInt(ItemOrder::getQuantity).sum();
     }
 
     private Customer getLoginCustomer() {
@@ -171,7 +202,7 @@ public class OrderServiceImpl implements OrderService {
         Book book = bookRepository.findById(itemOrderDto.getBookId()).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage(), "bookId"));
         ItemOrder itemOrder = new ItemOrder();
         Integer stock = getStock(book).getQuantity();
-        if (isStockExist(stock, itemOrderDto.getQuantity())) {
+        if (stock - itemOrderDto.getQuantity() >= 0) {
             itemOrder.setQuantity(itemOrderDto.getQuantity());
             itemOrder.setBook(book);
         } else
@@ -179,9 +210,26 @@ public class OrderServiceImpl implements OrderService {
         return itemOrder;
     }
 
-    private boolean isStockExist(Integer stock, Integer qnty) {
-        return stock - qnty >= 0;
+    private boolean isStockExistForAllBooks(List<ItemOrderRequestDto> itemOrderDtos) {
+        for (ItemOrderRequestDto itemOrderRequestDto : itemOrderDtos) {
+            Book book = bookRepository.findById(itemOrderRequestDto.getBookId()).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage(), "bookId"));
+            Integer stock = getStock(book).getQuantity();
+            if (stock <= 0) {
+                setMsgInMDCContext(book.getTitle() + " is not in our stock currently so Please try different book");
+                return false;
+            } else if (stock - itemOrderRequestDto.getQuantity() < 0) {
+                setMsgInMDCContext("Only " + stock + " books are in stock so Change Quantity for " + book.getTitle() + " Book");
+                return false;
+            }
+        }
+        return true;
     }
+
+    private void setMsgInMDCContext(String msg) {
+        MDC.clear();
+        MDC.put("msg", msg);
+    }
+
 
     private Stock getStock(Book book) {
         Optional<Stock> stockOptional = stockRepository.findByBook_Id(book.getId());
