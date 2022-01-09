@@ -7,6 +7,7 @@ import com.getir.bookstore.exception.RecordNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -32,12 +33,12 @@ public class ExceptionAdviceController {
         return ResponseEntity.badRequest().body(ResponseDto.buildError(errorResponses));
     }
 
-    @ExceptionHandler(CustomerAuthenticationException.class)
-    public ResponseEntity<ResponseDto> customerAuthenticationException(CustomerAuthenticationException exception, WebRequest request) {
+    @ExceptionHandler({CustomerAuthenticationException.class,InternalAuthenticationServiceException.class})
+    public ResponseEntity<ResponseDto> customerAuthenticationException(RuntimeException exception, WebRequest request) {
         log.error(exception.getMessage(),exception);
         List<ErrorResponse> errorResponses = new ArrayList<>();
-        errorResponses.add(ErrorResponse.builder().fieldName("Username").message(exception.getMessage()).build());
-        errorResponses.add(ErrorResponse.builder().fieldName("Password").message(exception.getMessage()).build());
+        errorResponses.add(ErrorResponse.builder().fieldName("email").message(exception.getMessage()).build());
+        errorResponses.add(ErrorResponse.builder().fieldName("password").message(exception.getMessage()).build());
         return new ResponseEntity(ResponseDto.buildError(errorResponses), HttpStatus.UNAUTHORIZED);
     }
 
