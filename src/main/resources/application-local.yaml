@@ -14,5 +14,20 @@ book:
     jwt:
       token:
         expire:
-          time: '3600000'
+          time: 360000
         secret: secret
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            enabled: false

@@ -1,37 +1,25 @@
 package com.getir.bookstore.config.jwt;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.getir.bookstore.exception.CustomerAuthenticationException;
-
-import java.io.ByteArrayOutputStream;
-
-import java.io.IOException;
-import javax.servlet.ServletException;
-
 import org.apache.catalina.connector.Response;
-
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.mock.web.DelegatingServletOutputStream;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.servlet.ServletException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(SpringExtension.class)
 class AuthEntryPointJwtTest {
     @Test
     void testCommence() throws IOException, ServletException {
-        // TODO: This test is incomplete.
-        //   Reason: R004 No meaningful assertions found.
-        //   Diffblue Cover was unable to create an assertion.
-        //   Make sure that fields modified by commence(HttpServletRequest, HttpServletResponse, AuthenticationException)
-        //   have package-private, protected, or public getters.
-        //   See https://diff.blue/R004 to resolve this issue.
-
         AuthEntryPointJwt authEntryPointJwt = new AuthEntryPointJwt();
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();

@@ -4,6 +4,7 @@ import com.getir.bookstore.dto.response.ErrorResponse;
 import com.getir.bookstore.dto.response.ResponseDto;
 import com.getir.bookstore.exception.CustomerAuthenticationException;
 import com.getir.bookstore.exception.RecordNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,24 +15,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
+@Slf4j
 public class ExceptionAdviceController {
 
     @ExceptionHandler(RuntimeException.class)
-    protected ResponseEntity<ResponseDto> bookRecordNotFound(RuntimeException exception, WebRequest request) {
+    public ResponseEntity<ResponseDto> internalServerException(RuntimeException exception, WebRequest request) {
+        log.error(exception.getMessage(),exception);
         return new ResponseEntity(ResponseDto.buildError(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(RecordNotFoundException.class)
-    protected ResponseEntity<ResponseDto> bookRecordNotFound(RecordNotFoundException exception, WebRequest request) {
+    public ResponseEntity<ResponseDto> recordNotFoundException(RecordNotFoundException exception, WebRequest request) {
+        log.error(exception.getMessage(),exception);
         List<ErrorResponse> errorResponses = new ArrayList<>();
         errorResponses.add(ErrorResponse.builder().fieldName(exception.getFieldName()).message(exception.getMessage()).build());
         return ResponseEntity.badRequest().body(ResponseDto.buildError(errorResponses));
     }
 
     @ExceptionHandler(CustomerAuthenticationException.class)
-    protected ResponseEntity<ResponseDto> bookRecordNotFound(CustomerAuthenticationException exception, WebRequest request) {
+    public ResponseEntity<ResponseDto> customerAuthenticationException(CustomerAuthenticationException exception, WebRequest request) {
+        log.error(exception.getMessage(),exception);
         List<ErrorResponse> errorResponses = new ArrayList<>();
-        errorResponses.add(ErrorResponse.builder().fieldName("UserName").message(exception.getMessage()).build());
+        errorResponses.add(ErrorResponse.builder().fieldName("Username").message(exception.getMessage()).build());
         errorResponses.add(ErrorResponse.builder().fieldName("Password").message(exception.getMessage()).build());
         return new ResponseEntity(ResponseDto.buildError(errorResponses), HttpStatus.UNAUTHORIZED);
     }

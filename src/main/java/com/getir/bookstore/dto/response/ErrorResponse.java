@@ -1,12 +1,10 @@
 package com.getir.bookstore.dto.response;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class ErrorResponse {
     private String fieldName;
     private String message;

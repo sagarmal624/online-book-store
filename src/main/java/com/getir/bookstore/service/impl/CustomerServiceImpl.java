@@ -6,21 +6,18 @@ import com.getir.bookstore.domain.Customer;
 import com.getir.bookstore.dto.request.CustomerRegisterDto;
 import com.getir.bookstore.dto.request.PageRequestDto;
 import com.getir.bookstore.dto.response.CustomerDto;
-import com.getir.bookstore.dto.response.OrderDto;
 import com.getir.bookstore.dto.response.PageResponseDto;
 import com.getir.bookstore.dto.response.ResponseDto;
 import com.getir.bookstore.exception.RecordNotFoundException;
 import com.getir.bookstore.repository.CustomerRepository;
 import com.getir.bookstore.service.CustomerService;
-import com.getir.bookstore.service.OrderService;
 import com.getir.bookstore.util.BookStoreUtils;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,6 +30,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
+
 public class CustomerServiceImpl implements CustomerService, UserDetailsService {
     @Autowired
     private CustomerRepository customerRepository;
@@ -78,6 +77,6 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
 
     @Override
     public Customer loadUserByUsername(String username) throws UsernameNotFoundException {
-        return customerRepository.findByUserName(username).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.CUSTOMER_NOT_FOUND.getMessage(), "userName"));
+        return customerRepository.findByUsername(username).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.CUSTOMER_NOT_FOUND.getMessage(), "userName"));
     }
 }

@@ -2,8 +2,6 @@ package com.getir.bookstore.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 
 import java.util.List;
 

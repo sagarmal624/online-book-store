@@ -1,18 +1,18 @@
 package com.getir.bookstore.config.jwt;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-
 import org.apache.catalina.connector.Response;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import java.io.IOException;
+
+import static org.mockito.Mockito.*;
+
+@ExtendWith(SpringExtension.class)
 class AuthTokenFilterTest {
     @Test
     void testDoFilterInternal() throws IOException, ServletException {

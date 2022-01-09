@@ -1,40 +1,37 @@
 package com.getir.bookstore.config.jwt;
 
-import java.util.Date;
-
 import com.getir.bookstore.domain.Customer;
+import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.*;
+
+import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
-    @Value("${book.store.jwt.token.secret}")
-    private String jwtSecret;
-    @Value("${book.store.jwt.token.expire.time}")
-    private int jwtExpirationMs;
+    static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
+    static final String JWT_SECRECT = "IndiaBookStoreSecrect";
+    static final int TOKEN_EXPIRATION = 3600000;
 
     public String generateJwtToken(Authentication authentication) {
         Customer userPrincipal = (Customer) authentication.getPrincipal();
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .setExpiration(new Date((new Date()).getTime() + TOKEN_EXPIRATION))
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRECT)
                 .compact();
     }
 
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(JWT_SECRECT).parseClaimsJws(token).getBody().getSubject();
     }
 
     public boolean validateJwtToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(JWT_SECRECT).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());

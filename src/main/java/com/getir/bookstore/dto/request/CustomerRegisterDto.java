@@ -12,7 +12,7 @@ public class CustomerRegisterDto {
     private String firstName;
     private String lastName;
     @NotEmpty
-    private String userName;
+    private String username;
     @NotEmpty
     private String password;
     private String mobileNumber;

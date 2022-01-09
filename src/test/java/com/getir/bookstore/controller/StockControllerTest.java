@@ -1,153 +1,129 @@
 package com.getir.bookstore.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import com.getir.bookstore.dto.request.PageRequestDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.getir.bookstore.constant.ApiEndPoint;
 import com.getir.bookstore.dto.request.StockRequestDto;
+import com.getir.bookstore.dto.response.PageDto;
+import com.getir.bookstore.dto.response.PageResponseDto;
 import com.getir.bookstore.dto.response.ResponseDto;
+import com.getir.bookstore.dto.response.StockDto;
+import com.getir.bookstore.service.StockService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindException;
-import org.springframework.validation.ObjectError;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
-class StockControllerTest {
+@ContextConfiguration(classes = {StockController.class})
+@ExtendWith(SpringExtension.class)
+public class StockControllerTest {
+    @MockBean
+    private StockService stockService;
+
+    @Autowired
+    private StockController StockController;
+
     @Test
-    void testUpdateStockQuantity() {
-        StockController stockController = new StockController();
-        StockRequestDto stockRequestDto = mock(StockRequestDto.class);
-        doNothing().when(stockRequestDto).setBookId((Long) any());
-        BeanPropertyBindingResult beanPropertyBindingResult = mock(BeanPropertyBindingResult.class);
-        ArrayList<ObjectError> objectErrorList = new ArrayList<>();
-        when(beanPropertyBindingResult.getAllErrors()).thenReturn(objectErrorList);
-        when(beanPropertyBindingResult.hasErrors()).thenReturn(true);
-        BindException bindException = new BindException(
-                new BindException(new BindException(new BindException(beanPropertyBindingResult))));
-        ResponseEntity<ResponseDto> actualUpdateStockQuantityResult = stockController.updateStockQuantity(123L,
-                stockRequestDto, bindException);
-        assertEquals(
-                "<400 BAD_REQUEST Bad Request,ResponseDto(code=1003, message=Data Validation Errors Occurred, success=false,"
-                        + " data=null, errors=[]),[]>",
-                actualUpdateStockQuantityResult.toString());
-        assertTrue(actualUpdateStockQuantityResult.getHeaders().isEmpty());
-        assertTrue(actualUpdateStockQuantityResult.hasBody());
-        assertEquals(HttpStatus.BAD_REQUEST, actualUpdateStockQuantityResult.getStatusCode());
-        ResponseDto body = actualUpdateStockQuantityResult.getBody();
-        assertNull(body.getData());
-        assertEquals(1003, body.getCode().intValue());
-        assertFalse(body.getSuccess());
-        assertEquals(objectErrorList, body.getErrors());
-        assertEquals("Data Validation Errors Occurred", body.getMessage());
-        verify(beanPropertyBindingResult).getAllErrors();
-        verify(beanPropertyBindingResult).hasErrors();
-        assertNull(bindException.getBindingResult().getFieldError());
+    void testAddStockSuccess() throws Exception {
+        ResponseDto<StockDto> responseDto = ResponseDto.buildSuccess();
+        when(stockService.updateBookOfStock(any())).thenReturn(responseDto);
+        StockRequestDto stockRequestDto = StockRequestDto.builder().bookId(1L).quantity(10).build();
+
+        String content = (new ObjectMapper()).writeValueAsString(stockRequestDto);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put(ApiEndPoint.STOCK_BASE_URL + "/book/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        MockMvcBuilders.standaloneSetup(this.StockController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"));
     }
 
     @Test
-    void testUpdateStockQuantity2() {
-        StockController stockController = new StockController();
-        StockRequestDto stockRequestDto = mock(StockRequestDto.class);
-        doNothing().when(stockRequestDto).setBookId((Long) any());
-        BeanPropertyBindingResult beanPropertyBindingResult = mock(BeanPropertyBindingResult.class);
-        ArrayList<ObjectError> objectErrorList = new ArrayList<>();
-        when(beanPropertyBindingResult.getAllErrors()).thenReturn(objectErrorList);
-        when(beanPropertyBindingResult.hasErrors()).thenReturn(true);
-        BindException bindException = new BindException(
-                new BindException(new BindException(new BindException(beanPropertyBindingResult))));
-        ResponseEntity<ResponseDto> actualUpdateStockQuantityResult = stockController.updateStockQuantity(123L,
-                stockRequestDto, bindException);
-        assertEquals(
-                "<400 BAD_REQUEST Bad Request,ResponseDto(code=1003, message=Data Validation Errors Occurred, success=false,"
-                        + " data=null, errors=[]),[]>",
-                actualUpdateStockQuantityResult.toString());
-        assertTrue(actualUpdateStockQuantityResult.getHeaders().isEmpty());
-        assertTrue(actualUpdateStockQuantityResult.hasBody());
-        assertEquals(HttpStatus.BAD_REQUEST, actualUpdateStockQuantityResult.getStatusCode());
-        ResponseDto body = actualUpdateStockQuantityResult.getBody();
-        assertNull(body.getData());
-        assertEquals(1003, body.getCode().intValue());
-        assertFalse(body.getSuccess());
-        assertEquals(objectErrorList, body.getErrors());
-        assertEquals("Data Validation Errors Occurred", body.getMessage());
-        verify(beanPropertyBindingResult).getAllErrors();
-        verify(beanPropertyBindingResult).hasErrors();
-        assertNull(bindException.getBindingResult().getFieldError());
+    void testAddStockFailureWithNullQuantity() throws Exception {
+        StockRequestDto stockRequestDto = StockRequestDto.builder().quantity(null).build();
+        String content = (new ObjectMapper()).writeValueAsString(stockRequestDto);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put(ApiEndPoint.STOCK_BASE_URL + "/book/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        MockMvcBuilders.standaloneSetup(this.StockController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"));
+    }
+
+
+    @Test
+    void testGetStocksSuccess() throws Exception {
+        StockDto stockDto = new StockDto();
+        stockDto.setStockId(1L);
+        stockDto.setBookId(2L);
+        stockDto.setQuantity(100);
+        PageDto pageDto = PageDto.builder().page(0).size(10).build();
+        List<StockDto> stockDtoList = new ArrayList<>();
+        stockDtoList.add(stockDto);
+        ResponseDto<PageResponseDto<StockDto>> responseDtoResponseDto = ResponseDto.buildSuccess(PageResponseDto.<StockDto>builder().page(pageDto).records(stockDtoList).build());
+        when(stockService.getStocks(any())).thenReturn(responseDtoResponseDto);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STOCK_BASE_URL + "?page=0&size=10")
+                .contentType(MediaType.APPLICATION_JSON);
+        MockMvcBuilders.standaloneSetup(this.StockController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void testGetStocks() {
-        StockController stockController = new StockController();
-
-        PageRequestDto pageRequestDto = new PageRequestDto();
-        pageRequestDto.setPage(1);
-        pageRequestDto.setSize(3);
-        BeanPropertyBindingResult beanPropertyBindingResult = mock(BeanPropertyBindingResult.class);
-        ArrayList<ObjectError> objectErrorList = new ArrayList<>();
-        when(beanPropertyBindingResult.getAllErrors()).thenReturn(objectErrorList);
-        when(beanPropertyBindingResult.hasErrors()).thenReturn(true);
-        BindException bindException = new BindException(
-                new BindException(new BindException(new BindException(beanPropertyBindingResult))));
-        ResponseEntity<ResponseDto> actualStocks = stockController.getStocks(pageRequestDto, bindException);
-        assertEquals(
-                "<400 BAD_REQUEST Bad Request,ResponseDto(code=1003, message=Data Validation Errors Occurred, success=false,"
-                        + " data=null, errors=[]),[]>",
-                actualStocks.toString());
-        assertTrue(actualStocks.getHeaders().isEmpty());
-        assertTrue(actualStocks.hasBody());
-        assertEquals(HttpStatus.BAD_REQUEST, actualStocks.getStatusCode());
-        ResponseDto body = actualStocks.getBody();
-        assertNull(body.getData());
-        assertEquals(1003, body.getCode().intValue());
-        assertFalse(body.getSuccess());
-        assertEquals(objectErrorList, body.getErrors());
-        assertEquals("Data Validation Errors Occurred", body.getMessage());
-        verify(beanPropertyBindingResult).getAllErrors();
-        verify(beanPropertyBindingResult).hasErrors();
-        assertNull(bindException.getSuppressedFields());
+    void testGetStocksFailure() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STOCK_BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON);
+        MockMvcBuilders.standaloneSetup(this.StockController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"));
     }
 
     @Test
-    void testGetStocks2() {
-        StockController stockController = new StockController();
-
-        PageRequestDto pageRequestDto = new PageRequestDto();
-        pageRequestDto.setPage(1);
-        pageRequestDto.setSize(3);
-        BeanPropertyBindingResult beanPropertyBindingResult = mock(BeanPropertyBindingResult.class);
-        ArrayList<ObjectError> objectErrorList = new ArrayList<>();
-        when(beanPropertyBindingResult.getAllErrors()).thenReturn(objectErrorList);
-        when(beanPropertyBindingResult.hasErrors()).thenReturn(true);
-        BindException bindException = new BindException(
-                new BindException(new BindException(new BindException(beanPropertyBindingResult))));
-        ResponseEntity<ResponseDto> actualStocks = stockController.getStocks(pageRequestDto, bindException);
-        assertEquals(
-                "<400 BAD_REQUEST Bad Request,ResponseDto(code=1003, message=Data Validation Errors Occurred, success=false,"
-                        + " data=null, errors=[]),[]>",
-                actualStocks.toString());
-        assertTrue(actualStocks.getHeaders().isEmpty());
-        assertTrue(actualStocks.hasBody());
-        assertEquals(HttpStatus.BAD_REQUEST, actualStocks.getStatusCode());
-        ResponseDto body = actualStocks.getBody();
-        assertNull(body.getData());
-        assertEquals(1003, body.getCode().intValue());
-        assertFalse(body.getSuccess());
-        assertEquals(objectErrorList, body.getErrors());
-        assertEquals("Data Validation Errors Occurred", body.getMessage());
-        verify(beanPropertyBindingResult).getAllErrors();
-        verify(beanPropertyBindingResult).hasErrors();
-        assertNull(bindException.getSuppressedFields());
+    void testGetStocksURLNotFound() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STOCK_BASE_URL + "/test")
+                .contentType(MediaType.APPLICATION_JSON);
+        MockMvcBuilders.standaloneSetup(this.StockController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+    @Test
+    void testGetStockByBookSuccess() throws Exception {
+        StockDto stockDto = new StockDto();
+        stockDto.setStockId(1L);
+        stockDto.setBookId(2L);
+        stockDto.setQuantity(100);
+
+        ResponseDto<StockDto> responseDtoResponseDto = ResponseDto.buildSuccess(stockDto);
+        when(stockService.getStockByBookId(any())).thenReturn(responseDtoResponseDto);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(ApiEndPoint.STOCK_BASE_URL + "/book/1")
+                .contentType(MediaType.APPLICATION_JSON);
+        MockMvcBuilders.standaloneSetup(this.StockController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+
+
 }
-

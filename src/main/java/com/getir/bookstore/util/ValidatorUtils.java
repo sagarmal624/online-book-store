@@ -3,6 +3,7 @@ package com.getir.bookstore.util;
 import com.getir.bookstore.constant.enums.BookStoreErrorCode;
 import com.getir.bookstore.dto.response.ErrorResponse;
 import com.getir.bookstore.dto.response.ResponseDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -10,7 +11,7 @@ import org.springframework.validation.FieldError;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
+@Slf4j
 public class ValidatorUtils {
     private ValidatorUtils() {
 

@@ -6,7 +6,7 @@ import com.getir.bookstore.dto.request.PageRequestDto;
 import com.getir.bookstore.dto.response.ResponseDto;
 import com.getir.bookstore.service.BookService;
 import com.getir.bookstore.validator.BookValidator;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(ApiEndPoint.BOOK_BASE_URL)
-@RequiredArgsConstructor
+@Slf4j
 public class BookController extends BaseController {
     @Autowired
     private BookService bookService;

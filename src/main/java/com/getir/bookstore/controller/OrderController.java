@@ -7,9 +7,7 @@ import com.getir.bookstore.dto.request.PageRequestDto;
 import com.getir.bookstore.dto.response.OrderDto;
 import com.getir.bookstore.dto.response.ResponseDto;
 import com.getir.bookstore.service.OrderService;
-import com.getir.bookstore.validator.BookValidator;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,13 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+@Slf4j
 @RequestMapping(ApiEndPoint.ORDER_BASE_URL)
 public class OrderController extends BaseController {
     @Autowired
     private OrderService orderService;
 
-    @Autowired
-    private BookValidator bookValidator;
 
     @PostMapping
     public ResponseEntity<ResponseDto> createOrder(@Valid @RequestBody OrderRequestDto orderRequestDto, BindingResult bindingResult) {

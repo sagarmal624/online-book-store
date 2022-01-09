@@ -7,6 +7,7 @@ import com.getir.bookstore.dto.response.ResponseDto;
 import com.getir.bookstore.dto.response.StockDto;
 import com.getir.bookstore.service.StockService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(ApiEndPoint.STOCK_BASE_URL)
 @RequiredArgsConstructor
+@Slf4j
 public class StockController extends BaseController {
     @Autowired
     private StockService stockService;

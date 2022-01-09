@@ -13,6 +13,7 @@ import com.getir.bookstore.repository.BookRepository;
 import com.getir.bookstore.repository.StockRepository;
 import com.getir.bookstore.service.StockService;
 import com.getir.bookstore.util.BookStoreUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +28,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class StockServiceImpl implements StockService {
     @Autowired
     private BookRepository bookRepository;

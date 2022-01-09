@@ -1,57 +1,66 @@
 package com.getir.bookstore.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.getir.bookstore.constant.ApiEndPoint;
+import com.getir.bookstore.dto.request.AuthenticationRequestDto;
+import com.getir.bookstore.dto.response.AuthenticationResponseDto;
+import com.getir.bookstore.service.AuthenticationService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.getir.bookstore.dto.request.AuthenticationRequestDto;
-import com.getir.bookstore.dto.response.ResponseDto;
+@ContextConfiguration(classes = {AuthenticationController.class})
+@ExtendWith(SpringExtension.class)
+public class AuthenticationControllerTest{
+    @MockBean
+    private AuthenticationService authenticationService;
 
-import java.util.ArrayList;
+    @Autowired
+    private AuthenticationController authenticationController;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindException;
-import org.springframework.validation.ObjectError;
-
-class AuthenticationControllerTest {
     @Test
-    void testSignin() {
-        AuthenticationController authenticationController = new AuthenticationController();
-
+    void testSigninSuccess() throws Exception {
         AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto();
-        authenticationRequestDto.setPassword("iloveyou");
-        authenticationRequestDto.setUserName("janedoe");
-        BeanPropertyBindingResult beanPropertyBindingResult = mock(BeanPropertyBindingResult.class);
-        ArrayList<ObjectError> objectErrorList = new ArrayList<>();
-        when(beanPropertyBindingResult.getAllErrors()).thenReturn(objectErrorList);
-        when(beanPropertyBindingResult.hasErrors()).thenReturn(true);
-        BindException bindException = new BindException(
-                new BindException(new BindException(new BindException(beanPropertyBindingResult))));
-        ResponseEntity<ResponseDto> actualSigninResult = authenticationController.signin(authenticationRequestDto,
-                bindException);
-        assertEquals(
-                "<400 BAD_REQUEST Bad Request,ResponseDto(code=1003, message=Data Validation Errors Occurred, success=false,"
-                        + " data=null, errors=[]),[]>",
-                actualSigninResult.toString());
-        assertTrue(actualSigninResult.getHeaders().isEmpty());
-        assertTrue(actualSigninResult.hasBody());
-        assertEquals(HttpStatus.BAD_REQUEST, actualSigninResult.getStatusCode());
-        ResponseDto body = actualSigninResult.getBody();
-        assertNull(body.getData());
-        assertEquals(1003, body.getCode().intValue());
-        assertFalse(body.getSuccess());
-        assertEquals(objectErrorList, body.getErrors());
-        assertEquals("Data Validation Errors Occurred", body.getMessage());
-        verify(beanPropertyBindingResult).getAllErrors();
-        verify(beanPropertyBindingResult).hasErrors();
-        assertNull(bindException.getBindingResult().getFieldError());
+        authenticationRequestDto.setUsername("test@gmail.com");
+        authenticationRequestDto.setPassword("test@123");
+        AuthenticationResponseDto authenticationResponseDto = AuthenticationResponseDto.builder().expired(36000).userName("test@gmail.com").token("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c").build();
+        when(authenticationService.getToken(any())).thenReturn(authenticationResponseDto);
+        String content = (new ObjectMapper()).writeValueAsString(authenticationRequestDto);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(ApiEndPoint.OAUTH_BASE_URL + "/token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        MockMvcBuilders.standaloneSetup(this.authenticationController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"));
+    }
+
+    @Test
+    void testSigninFailure() throws Exception {
+        AuthenticationRequestDto authenticationRequestDto = new AuthenticationRequestDto();
+        authenticationRequestDto.setUsername(null);
+        authenticationRequestDto.setPassword(null);
+        String content = (new ObjectMapper()).writeValueAsString(authenticationRequestDto);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post(ApiEndPoint.OAUTH_BASE_URL + "/token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        MockMvcBuilders.standaloneSetup(this.authenticationController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"));
     }
 }
-

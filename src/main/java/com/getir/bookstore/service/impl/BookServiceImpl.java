@@ -4,13 +4,12 @@ import com.getir.bookstore.domain.Book;
 import com.getir.bookstore.dto.request.BookRequestDto;
 import com.getir.bookstore.dto.request.PageRequestDto;
 import com.getir.bookstore.dto.response.BookDto;
-import com.getir.bookstore.dto.response.PageDto;
 import com.getir.bookstore.dto.response.PageResponseDto;
 import com.getir.bookstore.dto.response.ResponseDto;
 import com.getir.bookstore.repository.BookRepository;
 import com.getir.bookstore.service.BookService;
 import com.getir.bookstore.util.BookStoreUtils;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +22,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
+
 public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;

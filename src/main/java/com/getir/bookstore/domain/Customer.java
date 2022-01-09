@@ -1,6 +1,5 @@
 package com.getir.bookstore.domain;
 
-import com.getir.bookstore.constant.enums.RoleType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +25,7 @@ public class Customer implements UserDetails {
     private String firstName;
     private String lastName;
     @Column(unique = true)
-    private String userName;
+    private String username;
     private String password;
     private String mobileNumber;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -35,7 +34,7 @@ public class Customer implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userName;
+        return this.username;
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.getir.bookstore.dto.response.StatisticDto;
 import com.getir.bookstore.repository.OrderRepository;
 import com.getir.bookstore.service.AuthenticationService;
 import com.getir.bookstore.service.StatisticService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class StatisticServiceImpl implements StatisticService {
     @Autowired
     private OrderRepository orderRepository;

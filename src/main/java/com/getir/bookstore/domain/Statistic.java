@@ -1,7 +1,5 @@
 package com.getir.bookstore.domain;
 
-import lombok.Data;
-
 import java.math.BigDecimal;
 
 
