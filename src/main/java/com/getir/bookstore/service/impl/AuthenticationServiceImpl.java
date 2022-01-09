@@ -45,8 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     public Customer getLoginCustomer() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Customer customer = (Customer) auth.getPrincipal();
-        return customer;
+        return (Customer)auth.getPrincipal();
     }
 
 }

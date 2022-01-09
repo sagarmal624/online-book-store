@@ -22,7 +22,6 @@ public class OrderController extends BaseController {
     @Autowired
     private OrderService orderService;
 
-
     @PostMapping
     public ResponseEntity<ResponseDto> createOrder(@Valid @RequestBody OrderRequestDto orderRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

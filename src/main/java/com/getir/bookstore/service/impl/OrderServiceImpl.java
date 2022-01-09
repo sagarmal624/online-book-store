@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.getir.bookstore.constant.BookStoreConstant.BOOK_ID;
+
 @Service
 @Slf4j
 public class OrderServiceImpl implements OrderService {
@@ -199,7 +201,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private ItemOrder convertDtoToEntity(ItemOrderRequestDto itemOrderDto) {
-        Book book = bookRepository.findById(itemOrderDto.getBookId()).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage(), "bookId"));
+        Book book = bookRepository.findById(itemOrderDto.getBookId()).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage(), BOOK_ID));
         ItemOrder itemOrder = new ItemOrder();
         Integer stock = getStock(book).getQuantity();
         if (stock - itemOrderDto.getQuantity() >= 0) {
@@ -212,7 +214,7 @@ public class OrderServiceImpl implements OrderService {
 
     private boolean isStockExistForAllBooks(List<ItemOrderRequestDto> itemOrderDtos) {
         for (ItemOrderRequestDto itemOrderRequestDto : itemOrderDtos) {
-            Book book = bookRepository.findById(itemOrderRequestDto.getBookId()).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage(), "bookId"));
+            Book book = bookRepository.findById(itemOrderRequestDto.getBookId()).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage(), BOOK_ID));
             Integer stock = getStock(book).getQuantity();
             if (stock <= 0) {
                 setMsgInMDCContext(book.getTitle() + " is not in our stock currently so Please try different book");
@@ -233,7 +235,6 @@ public class OrderServiceImpl implements OrderService {
 
     private Stock getStock(Book book) {
         Optional<Stock> stockOptional = stockRepository.findByBook_Id(book.getId());
-        Stock stock = stockOptional.orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.STOCK_NOT_FOUND.getMessage(), "bookId"));
-        return stock;
+        return stockOptional.orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.STOCK_NOT_FOUND.getMessage(), BOOK_ID));
     }
 }
