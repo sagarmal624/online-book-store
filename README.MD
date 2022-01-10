@@ -43,7 +43,7 @@ Instructions on how to use them in your own application are linked below.
 | JaCoCo           | https://github.com/jacoco/jacoco |
 
 ## Current Sonar Coverage For Online Book Store
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://raw.githubusercontent.com/sagarmal624/online-book-store/master/sonar.png)
 
 
 ## Installation
