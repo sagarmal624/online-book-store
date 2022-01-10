@@ -1,7 +1,4 @@
 # Online Book Store
-## _The Last Markdown Editor, Ever_
-
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
@@ -26,7 +23,7 @@ ReadingIsGood is an online books retail firm which operates only on the Internet
 - **Spring Boot** - Latest version 2.6.2
 - **Spring Security With JWT**: https://jwt.io/introduction
 - **Lombook** - Project Lombok is a java library that automatically plugs into your editor and build tools, spicing up  your java.Never write another getter or equals method again, with one annotation your class has a fully featured builder, Automate your logging variables, and much more. https://projectlombok.org/
-- H2 Database - H2 is one of the popular in-memory databases written in Java. H2 can be embedded in Java applications or run in the client-server mode
+- **H2 Database** - H2 is one of the popular in-memory databases written in Java. H2 can be embedded in Java applications or run in the client-server mode
 - **Swagger Open API Specification** - Swagger is an Interface Description Language for describing RESTful APIs expressed using JSON. Swagger is used together with a set of open-source software tools to design, build, document, and use RESTful web services. Swagger includes automated documentation, code generation, and test-case generation. https://swagger.io/
 - **Docker** - Docker is the containerization platform which is used to package your application and all its dependencies together in the form of containers so to make sure that your application works seamlessly in any environment which can be development or test or production. Docker is a tool designed to make it easier to create, deploy, run applications by using containers.
 - **Spring Data JPA(Hibernate/JPA)**:Spring Data JPA, part of the larger Spring Data family, makes it easy to easily implement JPA based repositories. This module deals with enhanced support for JPA based data access layers. It makes it easier to build Spring-powered applications that use data access technologies.https://spring.io/projects/spring-data-jpa
@@ -43,7 +40,7 @@ Instructions on how to use them in your own application are linked below.
 | JaCoCo           | https://github.com/jacoco/jacoco |
 
 ## Current Sonar Coverage For Online Book Store
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://raw.githubusercontent.com/sagarmal624/online-book-store/master/sonar.png)
 
 
 ## Installation
@@ -78,10 +75,20 @@ mvn spring-boot:run
 
 http://localhost:8080/swagger-ui/index.html
 
+## Postman collection
+
+ https://github.com/sagarmal624/online-book-store/blob/master/Book%20Store.postman_collection.json
+
+## Bootstrap Data:
+
+ System load by default 4 books with Zero Stock.
+
+  https://github.com/sagarmal624/online-book-store/blob/master/src/main/resources/books.json
+
 
 ## API End Point
+
 Server is running at 8080 port by default. check out POSTMAN Collection for request and response for following API.
-#### Customer Registration:
 
 ```sh
 /api/v1/customer:   Its used to register a customer into book store.check out POSTMAN Collection for request and response of this API.
