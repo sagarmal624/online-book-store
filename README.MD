@@ -79,6 +79,13 @@ http://localhost:8080/swagger-ui/index.html
 
  https://github.com/sagarmal624/online-book-store/blob/master/Book%20Store.postman_collection.json
 
+## Bootstrap Data:
+
+ System load by default 4 books with Zero Stock.
+
+  https://github.com/sagarmal624/online-book-store/blob/master/src/main/resources/books.json
+
+
 ## API End Point
 
 Server is running at 8080 port by default. check out POSTMAN Collection for request and response for following API.
