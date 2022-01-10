@@ -131,12 +131,12 @@ api/v1/stock/book/{bookId}: Fetch Stock details for specific book.
 ```
 
 ```sh
-/api/v1/order: find below explaination
-```
- It's used to create or palce order for list of books and internalty it will check stock is exist or not. 
+/api/v1/order:  It's used to create or palce order for list of books and internalty it will check stock is exist or not. 
 if its exist then proceed further and lock required quantity of stock till order completion.
 it can reverback stock if anything failure at runtume and it also internaly system maintaining version field to handle multiple updates by multile user
 in same record at same time. whenever version field value mismatch then system will throw runtime exception OptimisticLockException which means record is updated by someone else. if everyhng is saved successfully then order is created and will notify with success message.
+
+```
 
 ```sh
 /api/v1/order/{orderId}: its used to fetch order details for specific order.
