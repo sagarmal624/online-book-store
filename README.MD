@@ -39,8 +39,15 @@ Instructions on how to use them in your own application are linked below.
 | Sonar            | https://www.sonarqube.org/       |
 | JaCoCo           | https://github.com/jacoco/jacoco |
 
-## Current Sonar Coverage For Online Book Store
-![alt text](https://raw.githubusercontent.com/sagarmal624/online-book-store/master/sonar-coverage.png)
+## Current Sonar Code Quality Coverage For Online Book Store
+![alt text](https://raw.githubusercontent.com/sagarmal624/online-book-store/master/images/sonar-coverage.png)
+## JACOCO Coverage for Controllers
+
+![alt text](https://raw.githubusercontent.com/sagarmal624/online-book-store/master/images/jacco-controller.png)
+
+## JACOCO Coverage for Services and its implementation
+
+![alt text](https://raw.githubusercontent.com/sagarmal624/online-book-store/master/images/jacco-service.png)
 
 
 ## Installation
@@ -142,7 +149,7 @@ You can access H2 Database with below URL in Local System. H2-Console is by defa
 
 http://localhost:8080/h2-console
 
-![alt text](https://raw.githubusercontent.com/sagarmal624/online-book-store/master/h2.png)
+![alt text](https://raw.githubusercontent.com/sagarmal624/online-book-store/master/images/h2.png)
 
 ## Docker
 
