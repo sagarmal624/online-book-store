@@ -150,6 +150,7 @@ http://localhost:8080/h2-console
 By default, the Docker will expose port 8080, so change this within the
 Dockerfile if necessary. When ready, simply use the Dockerfile to
 build the image.
+
 ### Build Docker Image
 
 ```sh
@@ -165,7 +166,7 @@ port 8080 of the Docker (or whatever port was exposed in the Dockerfile):
 docker run -p 8080:8080 -d book-store
 ```
 
-### Docker PULL
+### Pull Image
 
 I already push image of book-store so you can directly use it for your purpose.
 
