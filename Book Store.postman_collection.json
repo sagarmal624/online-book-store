@@ -1,0 +1,559 @@
+{
+	"info": {
+		"_postman_id": "8ecca758-94c1-459e-ac01-8f8b8cfe755c",
+		"name": "Book Store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"sagar\",\n    \"lastName\": \"Shankhala\",\n    \"email\": \"sagar@domain.com\",\n    \"password\": \"India@2022\",\n    \"mobileNumber\": \"8826100625\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"sagar@domain.com\",\n    \"password\": \"India@2022\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/oauth/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Book",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhckBkb21haW4uY29tIiwiaWF0IjoxNjQxNzg1NTU5LCJleHAiOjE2NDE3ODkxNTl9.xPcMK9F1I9F9hXZix6ZhwwRf5Bm65anUew5sU1T1WCJhj2rtMS0NgtGDsLMLR1n3dZnFSx-JBA5gT8BBG2dZQA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Spring Boot in Action\",\n    \"author\": \"Craig\",\n    \"description\": \"This is simply the best book to learn Spring Boot from none other than Craig Walls, who has taught most of the Java developers Spring Framework by his classic book Spring in Action.Craig has a beautiful ability to explain complicated and tedious concepts in simple language with beautiful analogies, and you will find many such beautiful examples in this book as well.\",\n    \"price\": 500\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/book",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Stock For Book",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhckBkb21haW4uY29tIiwiaWF0IjoxNjQxNzc2NzcxLCJleHAiOjE2NDE3ODAzNzF9.zrzd7zJkYhwccVgafJGjbGQhdhGYjs7eiE4H6f_KOLKghN22NtjnM_Zi2n6NR30Y-kxcuoWqDfXUCl8ishslOg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"quantity\": 500\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/stock/book/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"stock",
+						"book",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetBooks",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhckBkb21haW4uY29tIiwiaWF0IjoxNjQxNzc2NzcxLCJleHAiOjE2NDE3ODAzNzF9.zrzd7zJkYhwccVgafJGjbGQhdhGYjs7eiE4H6f_KOLKghN22NtjnM_Zi2n6NR30Y-kxcuoWqDfXUCl8ishslOg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/book?page=0&size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"book"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetStocks",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhckBkb21haW4uY29tIiwiaWF0IjoxNjQxNzgwNTI2LCJleHAiOjE2NDE3ODQxMjZ9.1EiPAptkJ8BcDX4FdmDxzTVhr6zUB6HK5j-h7ovkTJhvTwfZskf8wXoEAZklWAkR3fO6mtZgKWFy_lsBy5Hq0Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/stock/books?page=0&size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"stock",
+						"books"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetStockByBookID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhckBkb21haW4uY29tIiwiaWF0IjoxNjQxNzc2NzcxLCJleHAiOjE2NDE3ODAzNzF9.zrzd7zJkYhwccVgafJGjbGQhdhGYjs7eiE4H6f_KOLKghN22NtjnM_Zi2n6NR30Y-kxcuoWqDfXUCl8ishslOg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/stock/book/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"stock",
+						"book",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhckBkb21haW4uY29tIiwiaWF0IjoxNjQxNzgwNTI2LCJleHAiOjE2NDE3ODQxMjZ9.1EiPAptkJ8BcDX4FdmDxzTVhr6zUB6HK5j-h7ovkTJhvTwfZskf8wXoEAZklWAkR3fO6mtZgKWFy_lsBy5Hq0Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"orders\": [\n        {\n            \"bookId\": 2,\n            \"quantity\": 10\n        },\n        {\n            \"bookId\": 3,\n            \"quantity\": 20\n        },\n        {\n            \"bookId\": 1,\n            \"quantity\": 10\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrderById",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhcm1hbDYyNEBnbWFpbC5jb20iLCJpYXQiOjE2NDE3Mzc4NjUsImV4cCI6MTY0MTc0MTQ2NX0.Ey7GYoBhzgCLWbJc40cCH0q6a-P0Wy1Zi68vT9p90JgQ0FPMS_yT7CoGmwCDV0JMxAqUcI0AMF6_-KrMWAPDJg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/order/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"order",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Orders Of Login Customer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhckBkb21haW4uY29tIiwiaWF0IjoxNjQxNzc2NzcxLCJleHAiOjE2NDE3ODAzNzF9.zrzd7zJkYhwccVgafJGjbGQhdhGYjs7eiE4H6f_KOLKghN22NtjnM_Zi2n6NR30Y-kxcuoWqDfXUCl8ishslOg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/order?page=0&size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"order"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetMonthlyOrderStatics",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhckBkb21haW4uY29tIiwiaWF0IjoxNjQxNzc2NzcxLCJleHAiOjE2NDE3ODAzNzF9.zrzd7zJkYhwccVgafJGjbGQhdhGYjs7eiE4H6f_KOLKghN22NtjnM_Zi2n6NR30Y-kxcuoWqDfXUCl8ishslOg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/statistic/customer/report/monthly/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"statistic",
+						"customer",
+						"report",
+						"monthly",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllCustomers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhckBkb21haW4uY29tIiwiaWF0IjoxNjQxNzgwNTI2LCJleHAiOjE2NDE3ODQxMjZ9.1EiPAptkJ8BcDX4FdmDxzTVhr6zUB6HK5j-h7ovkTJhvTwfZskf8wXoEAZklWAkR3fO6mtZgKWFy_lsBy5Hq0Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"sagar\",\n    \"lastName\": \"Shankhala\",\n    \"email\": \"sagar@domain.com\",\n    \"password\": \"India@2022\",\n    \"mobileNumber\": \"8826100625\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/customer?page=0&size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"customer"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
