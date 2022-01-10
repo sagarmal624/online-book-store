@@ -97,6 +97,9 @@ http://localhost:8080/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/
 
 Server is running at 8080 port by default. check out POSTMAN Collection for request and response for following API.
 
+This application manages stocks for books. It exposes REST endpoints to create and update stock of books in the warehouse. The application can handle multiple concurrent transactions and is resilient to transaction failures. In case of a failed transaction, the application can rollback the transaction, maintaining the consistency of underlying database.
+
+
 ```sh
 /api/v1/customer:   Its used to register a customer into book store.check out POSTMAN Collection for request and response of this API.
 ```
