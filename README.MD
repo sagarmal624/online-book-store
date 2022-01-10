@@ -141,7 +141,8 @@ api/v1/statistic/customer/report/monthly/: its used to fetch login customer mont
 You can access H2 Database with below URL in Local System. H2-Console is by default disable in Docker Env due to Security.
 
 http://localhost:8080/h2-console
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+
+![alt text](https://raw.githubusercontent.com/sagarmal624/online-book-store/master/h2.png)
 
 ## Docker
 
