@@ -80,8 +80,8 @@ http://localhost:8080/swagger-ui/index.html
  https://github.com/sagarmal624/online-book-store/blob/master/Book%20Store.postman_collection.json
 
 ## API End Point
+
 Server is running at 8080 port by default. check out POSTMAN Collection for request and response for following API.
-#### Customer Registration:
 
 ```sh
 /api/v1/customer:   Its used to register a customer into book store.check out POSTMAN Collection for request and response of this API.
