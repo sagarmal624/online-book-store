@@ -138,11 +138,10 @@ api/v1/order?page=0&size=10: fetch list of all order for login customer with pag
 api/v1/statistic/customer/report/monthly/: its used to fetch login customer monthly report for all orders. 
 ```
 ## H2 Database access
-You can access H2 Database with below URL
+You can access H2 Database with below URL in Local System. H2-Console is by default disable in Docker Env due to Security.
 
 http://localhost:8080/h2-console
 ![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
-
 
 ## Docker
 
