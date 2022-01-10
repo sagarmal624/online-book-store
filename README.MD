@@ -79,9 +79,9 @@ http://localhost:8080/swagger-ui/index.html
 
  https://github.com/sagarmal624/online-book-store/blob/master/Book%20Store.postman_collection.json
 
-## Bootstrap Data:
+## Sample Data:
 
- System load by default 4 books with Zero Stock.
+ you can find sample book dat.
 
   https://github.com/sagarmal624/online-book-store/blob/master/src/main/resources/books.json
 
