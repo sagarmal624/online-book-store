@@ -19,20 +19,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Page<Order> findAllByCreatedDateGreaterThanEqualAndCreatedDateLessThanEqual(LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable);
 
-    @Query(nativeQuery = true, value = "SELECT   *\n" +
-            "FROM     (\n" +
-            "                         SELECT          To_char(bo.created_date, 'MM')                                      AS month ,\n" +
-            "                                         bo.amount                                                           AS totalamount,\n" +
-            "                                         Count(*) over (partition BY to_char(bo.created_date, 'MM'))         AS totalorder,\n" +
-            "                                         sum(io.quantity) over (partition BY to_char(bo.created_date, 'MM')) AS totalpurchasebookcount ,\n" +
-            "                                         row_number() over(partition BY to_char(bo.created_date, 'MM') )        rownumber\n" +
-            "                         FROM            book_order bo\n" +
-            "                         LEFT OUTER JOIN book_order_item_orders boio\n" +
-            "                         LEFT OUTER JOIN item_order io\n" +
-            "                         WHERE           io.id=boio.item_orders_id\n" +
-            "                         AND             boio.order_id=bo.id" +
-            "                         AND             bo.customer_id= :customerId) t\n" +
-            "WHERE    t.rownumber=1\n" +
-            "ORDER BY t.month")
+    @Query(nativeQuery = true, value = "SELECT *\n" +
+            "FROM  (SELECT To_char(created_date, 'MM')AS month,\n" +
+            "              Sum(amount)                AS totalamount,\n" +
+            "              Count(*)                   AS totalorder,\n" +
+            "              Sum(total_quantity)        AS totalpurchasebookcount\n" +
+            "       FROM   book_order\n" +
+            "       WHERE  customer_id =:customerId\n" +
+            "       GROUP  BY To_char(created_date, 'MM'))\n" +
+            "ORDER  BY month")
     List<Statistic> getGroupByMonthlyReport(@Param("customerId") Long customerId);
 }

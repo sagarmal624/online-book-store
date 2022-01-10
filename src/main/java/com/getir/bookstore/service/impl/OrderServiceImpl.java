@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -159,6 +160,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.IN_PROGRESS);
         order.setCustomer(getLoginCustomer());
         order.setAmount(getTotalAmount(itemOrders));
+        order.setTotalQuantity(getTotalQuantity(itemOrders));
         order.setItemOrders(itemOrders);
         return order;
     }
@@ -195,13 +197,15 @@ public class OrderServiceImpl implements OrderService {
             return price.multiply(new BigDecimal(it.getQuantity()));
         }).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-
+    private Integer getTotalQuantity(List<ItemOrder> itemOrders){
+        return itemOrders.stream().mapToInt(ItemOrder::getQuantity).sum();
+    }
     private List<ItemOrder> convertDtoToEntity(List<ItemOrderRequestDto> itemOrderDtos) {
         return itemOrderDtos.stream().map(this::convertDtoToEntity).collect(Collectors.toList());
     }
 
     private ItemOrder convertDtoToEntity(ItemOrderRequestDto itemOrderDto) {
-        Book book = bookRepository.findById(itemOrderDto.getBookId()).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage(), BOOK_ID));
+        Book book = bookRepository.findById(itemOrderDto.getBookId()).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage()+" for Id "+itemOrderDto.getBookId(), BOOK_ID));
         ItemOrder itemOrder = new ItemOrder();
         Integer stock = getStock(book).getQuantity();
         if (stock - itemOrderDto.getQuantity() >= 0) {
@@ -214,7 +218,7 @@ public class OrderServiceImpl implements OrderService {
 
     private boolean isStockExistForAllBooks(List<ItemOrderRequestDto> itemOrderDtos) {
         for (ItemOrderRequestDto itemOrderRequestDto : itemOrderDtos) {
-            Book book = bookRepository.findById(itemOrderRequestDto.getBookId()).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage(), BOOK_ID));
+            Book book = bookRepository.findById(itemOrderRequestDto.getBookId()).orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage()+" for Id "+itemOrderRequestDto.getBookId(), BOOK_ID));
             Integer stock = getStock(book).getQuantity();
             if (stock <= 0) {
                 setMsgInMDCContext(book.getTitle() + " is not in our stock currently so Please try different book");
@@ -235,6 +239,6 @@ public class OrderServiceImpl implements OrderService {
 
     private Stock getStock(Book book) {
         Optional<Stock> stockOptional = stockRepository.findByBook_Id(book.getId());
-        return stockOptional.orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.STOCK_NOT_FOUND.getMessage(), BOOK_ID));
+        return stockOptional.orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.STOCK_NOT_FOUND.getMessage()+" for Book "+book.getId(), BOOK_ID));
     }
 }

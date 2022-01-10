@@ -8,5 +8,4 @@ public class CustomerDto extends BaseDto {
     private String lastName;
     private String email;
     private String mobileNumber;
-    private String address;
 }
