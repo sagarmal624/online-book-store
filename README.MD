@@ -130,6 +130,12 @@ api/v1/order?page=0&size=10: fetch list of all order for login customer with pag
 ```sh
 api/v1/statistic/customer/report/monthly/: its used to fetch login customer monthly report for all orders. 
 ```
+## H2 Database access
+You can access H2 Database with below URL
+
+http://localhost:8080/h2-console
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+
 
 ## Docker
 
@@ -137,15 +143,26 @@ api/v1/statistic/customer/report/monthly/: its used to fetch login customer mont
 By default, the Docker will expose port 8080, so change this within the
 Dockerfile if necessary. When ready, simply use the Dockerfile to
 build the image.
+### Build Docker Image
 
 ```sh
-docker build -t <youruser .
+ docker build -f Dockerfile -t book-store .
 ```
 
 Once done, run the Docker image and map the port to whatever you wish on
 your host. In this example, we simply map port 8000 of the host to
 port 8080 of the Docker (or whatever port was exposed in the Dockerfile):
 
+### Run Docker image in local system
 ```sh
-docker run -d -p 8000:8080 --restart=always --cap-add=SYS_ADMIN --name=dillinger <youruser>/dillinger:${package.json.version}
+docker run -p 8080:8080 -d book-store
 ```
+
+### Docker PULL
+
+I already push image of book-store so you can directly use it for your purpose.
+
+```sh
+docker pull sagarandcompany/book-store
+```
+
