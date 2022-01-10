@@ -75,6 +75,9 @@ mvn spring-boot:run
 
 http://localhost:8080/swagger-ui/index.html
 
+## Postman collection
+
+ https://github.com/sagarmal624/online-book-store/blob/master/Book%20Store.postman_collection.json
 
 ## API End Point
 Server is running at 8080 port by default. check out POSTMAN Collection for request and response for following API.
