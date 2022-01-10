@@ -81,7 +81,7 @@ http://localhost:8080/swagger-ui/index.html
 
 ## Sample Data:
 
- you can find sample book dat.
+ you can find sample book data.
 
   https://github.com/sagarmal624/online-book-store/blob/master/src/main/resources/books.json
 
@@ -163,7 +163,9 @@ port 8080 of the Docker (or whatever port was exposed in the Dockerfile):
 
 ### Run Docker image in local system
 ```sh
+
 docker run -p 8080:8080 -d book-store
+
 ```
 
 ### Pull Image
