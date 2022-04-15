@@ -38,7 +38,9 @@ public class StockServiceImpl implements StockService {
     @Override
     public ResponseDto<StockDto> updateBookOfStock(StockRequestDto stockRequestDto) {
         Optional<Book> bookOptional = bookRepository.findById(stockRequestDto.getBookId());
-        Book book = bookOptional.orElseThrow(() -> new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage(),"bookId"));
+        Book book = bookOptional.orElseThrow(() ->
+                new RecordNotFoundException(BookStoreErrorCode.BOOK_NOT_FOUND.getMessage(),"bookId")
+        );
         Optional<Stock> dbStockOptional = stockRepository.findByBook_Id(stockRequestDto.getBookId());
         Stock stock = dbStockOptional.orElse(null);
         if (Objects.isNull(stock)) {

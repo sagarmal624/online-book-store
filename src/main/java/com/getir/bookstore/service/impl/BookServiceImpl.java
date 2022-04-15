@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-
 public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;

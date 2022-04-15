@@ -16,7 +16,6 @@ public enum BookStoreErrorCode {
     STOCK_ERROR(1006,"Sorry, we do not have enough book in stock."),
     FIELD_VALIDATION_ERROR(1007,"Field validation error."),
     UNIQUE_RECORD_VALIDATION_ERROR(1008,"Record is exist with this details so Field validation error.");
-
     private int code;
     private String message;
 }

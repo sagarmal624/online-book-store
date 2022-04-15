@@ -30,7 +30,7 @@ public class DataLoader {
     @PostConstruct
     public void init() {
         if (bookRepository.count() == 0) {
-            createBooks();
+            //createBooks();
         }
         if (stockRepository.count() == 0) {
             updateStockForBooks();
