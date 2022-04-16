@@ -6,7 +6,6 @@ metadata:
   name: book-store-deployment
   namespace: default
 spec:
-  progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
@@ -23,7 +22,7 @@ spec:
         app: book-store-deployment
     spec:
       containers:
-        - image: ${IMAGE}
+        - image: ${IMAGE_NAME}
           imagePullPolicy: Always
           name: bookstore
       restartPolicy: Always
