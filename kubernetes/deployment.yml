@@ -23,7 +23,7 @@ spec:
         app: book-store-deployment
     spec:
       containers:
-        - image: dockerimageregistory.azurecr.io/onlinebookstore/bookstore:latest
+        - image: ${IMAGE}
           imagePullPolicy: Always
           name: bookstore
       restartPolicy: Always
