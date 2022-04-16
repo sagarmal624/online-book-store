@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, ApiEndPoint.OAUTH_BASE_URL + "/token").permitAll()
                 .antMatchers(HttpMethod.POST, ApiEndPoint.CUSTOMER_BASE_URL).permitAll()
+                .antMatchers(HttpMethod.GET, "/health").permitAll()
                 .antMatchers("/api-docs/**", "/configuration/**", "/swagger*/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
