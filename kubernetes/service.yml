@@ -6,7 +6,6 @@ metadata:
   name: book-store-service
   namespace: default
 spec:
-  externalTrafficPolicy: Cluster
   ports:
   - nodePort: 32751
     port: 8080
